@@ -5,13 +5,19 @@ import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GameStartScreen {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("게임 시작 화면");
-        frame.setSize(300, 200);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+public class GameStartScreen extends JFrame {
+    private JPanel panel;
+    private JPanel nextScreenPanel;
+    private JPanel lobbyPanel;
 
-        JPanel panel = new JPanel();
+    public GameStartScreen() {
+        setTitle("게임 시작 화면");
+        setSize(300, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        panel = new JPanel();
+        nextScreenPanel = new JPanel();
+        lobbyPanel = new JPanel();
 
         JButton startButton = new JButton("게임 시작");
         JButton exitButton = new JButton("EXIT");
@@ -20,9 +26,10 @@ public class GameStartScreen {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 게임 시작 버튼 눌렸을 때 동작할 코드 작성
-                // 다음 화면으로 이동하는 로직 등을 추가하면 됩니다.
-                System.out.println("게임 시작 버튼이 눌렸습니다.");
+                getContentPane().remove(panel);
+                getContentPane().add(nextScreenPanel);
+                revalidate();
+                repaint();
             }
         });
 
@@ -48,7 +55,45 @@ public class GameStartScreen {
         panel.add(exitButton);
         panel.add(optionButton);
 
-        frame.add(panel);
-        frame.setVisible(true);
+        getContentPane().add(panel);
+        setVisible(true);
+
+        setupNextScreen();
+        setupLobbyScreen();
+    }
+
+    private void setupNextScreen() {
+        JButton createButton = new JButton("방 만들기");
+        JButton joinButton = new JButton("참여");
+
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getContentPane().remove(nextScreenPanel);
+                getContentPane().add(lobbyPanel);
+                revalidate();
+                repaint();
+                System.out.println("방 만들기 버튼이 눌렸습니다.");
+            }
+        });
+
+        nextScreenPanel.add(createButton);
+        nextScreenPanel.add(joinButton);
+    }
+
+    private void setupLobbyScreen() {
+        JButton lobbyButton = new JButton("로비 화면으로 돌아가기");
+
+        lobbyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getContentPane().remove(lobbyPanel);
+                getContentPane().add(nextScreenPanel);
+                revalidate();
+                repaint();
+            }
+        });
+
+        lobbyPanel.add(lobbyButton);
     }
 }
