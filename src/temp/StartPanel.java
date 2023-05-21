@@ -38,5 +38,6 @@ public class StartPanel extends JPanel {
         add(startButton);
         add(exitButton);
         add(optionButton);
+        //나는 바보입니다.
     }
 }
